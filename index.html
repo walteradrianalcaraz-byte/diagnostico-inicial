@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Diagnóstico Inicial · Walter Adrián Alcaraz</title>
+<meta name="description" content="Cómo una empresa puede ver, en una semana, cómo trabaja de verdad y qué puede mejorar con tecnología.">
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="comun.css">
+<style>
+html,body{height:100%;overflow:hidden}
+body{font-size:17px}
+.deck{position:fixed;inset:0;display:flex;flex-direction:column}
+.cab{flex:none;display:flex;align-items:center;gap:12px;padding:14px clamp(18px,4vw,44px);border-bottom:1px solid var(--linea);background:rgba(241,235,223,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:5}
+.cab img{width:32px;height:32px}
+.cab .marca{font-family:var(--serif);font-size:1.02rem;white-space:nowrap}
+.cab .donde{margin-left:auto;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--suave);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra-prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--acento);transition:width .5s var(--ease)}
+.diapos{flex:1;position:relative;overflow:hidden}
+.diapo{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;visibility:hidden;transform:translateX(28px);transition:opacity .45s var(--ease),transform .45s var(--ease),visibility 0s linear .45s}
+.diapo.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--ease),transform .45s var(--ease),visibility 0s}
+.diapo.antes{transform:translateX(-28px)}
+.int{max-width:1180px;margin:0 auto;min-height:100%;padding:clamp(28px,5vh,64px) clamp(20px,4vw,48px) 120px;display:flex;flex-direction:column;justify-content:center}
+.eti{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.eti::before{content:"";width:28px;height:2px;background:var(--acento)}
+h1.t{font-size:clamp(2.6rem,6.4vw,5.2rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 22px}
+h2.t{font-size:clamp(2rem,4.2vw,3.3rem);line-height:1.08;margin:0 0 18px}
+.lead{font-size:clamp(1.08rem,1.6vw,1.28rem);color:var(--suave);max-width:760px;margin:0 0 26px}
+.lead b{color:var(--texto)}
+.dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(28px,4vw,56px);align-items:center}
+@media (max-width:900px){.dos{grid-template-columns:1fr}}
+.txt p{margin:0 0 14px}
+.captura{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--linea);box-shadow:var(--sombra-alta);background:#fff;cursor:zoom-in;position:relative}
+.captura img{display:block;width:100%;height:auto}
+.captura figcaption{position:absolute;left:12px;bottom:12px;background:rgba(31,30,28,.78);color:#F6F1E7;font-size:.78rem;padding:5px 11px;border-radius:999px}
+.par-capturas{display:grid;gap:16px}
+.puntos{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:12px}
+.puntos li{position:relative;padding-left:26px;line-height:1.5}
+.puntos li::before{content:"";position:absolute;left:4px;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--acento)}
+.ir{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.ir .btn{padding:12px 20px;font-size:.95rem}
+.ir .btn-acento::after{content:"→";margin-left:2px}
+.tip-ir{font-size:.84rem;color:var(--suave);margin-top:12px}
+.cifras{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:4px 0 24px}
+.cifra{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r-s);padding:14px 16px}
+.cifra b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.15;white-space:nowrap}
+.cifra span{font-size:.8rem;color:var(--suave)}
+.tarjetas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:10px}
+.tarjetas.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.tarjetas.cuatro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.tarjetas,.tarjetas.cuatro{grid-template-columns:1fr}}
+.tj{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r);box-shadow:var(--sombra);padding:24px 24px 20px}
+.tj .n{font-family:var(--serif);font-size:2.4rem;line-height:1;color:var(--acento);margin-bottom:12px}
+.tj h3{font-size:1.3rem;margin-bottom:8px}
+.tj p{color:var(--suave);font-size:.95rem;margin:0}
+.tj .ico{font-size:1.6rem;margin-bottom:10px}
+.portada-diapo .int{position:relative}
+.portada-logo{width:clamp(64px,8vw,92px);margin-bottom:28px}
+.firma{display:flex;flex-wrap:wrap;gap:28px;margin-top:34px;padding-top:22px;border-top:1px solid var(--linea);max-width:760px}
+.firma div span{display:block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--suave)}
+.firma div b{font-family:var(--serif);font-weight:500;font-size:1.15rem}
+.portada-diapo h1.t{max-width:min(860px,64vw)}.portada-diapo .lead{max-width:min(640px,56vw)}
+.circulo{position:absolute;right:-12vw;top:50%;transform:translateY(-50%);width:min(36vw,520px);aspect-ratio:1;border-radius:50%;background:var(--acento-suave);border:2px solid var(--acento);opacity:.55;pointer-events:none;z-index:-1}
+@media (max-width:900px){.circulo{display:none}.portada-diapo h1.t,.portada-diapo .lead{max-width:none}}
+.empezar{margin-top:30px}
+.recorrido{counter-reset:r;list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.recorrido li{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r-s);padding:14px 16px;font-size:.95rem;cursor:pointer;transition:border-color .2s,background .2s}
+.recorrido li:hover{border-color:var(--acento);background:#fff}
+.recorrido li::before{counter-increment:r;content:counter(r,decimal-leading-zero);display:block;font-family:var(--serif);color:var(--acento);font-size:1.2rem}
+.destacado{background:linear-gradient(180deg,#F6E6DC,var(--tarjeta) 75%);border:1px solid #E2BFAE;border-radius:var(--r);padding:clamp(22px,3vw,32px);box-shadow:var(--sombra)}
+.destacado p:last-child{margin-bottom:0}
+.cita-grande{font-family:var(--serif);font-size:clamp(1.3rem,2.4vw,1.75rem);line-height:1.35;margin:0 0 18px}
+.capac{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.capac{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.capac{grid-template-columns:1fr}}
+.capac .tj{padding:20px}
+.capac .tj h3{font-size:1.15rem}
+.semana{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:10px 0 26px;border:1px solid var(--linea);border-radius:var(--r);overflow:hidden;background:var(--tarjeta)}
+.semana div{padding:18px 18px 16px;border-left:1px solid var(--linea)}
+.semana div:first-child{border-left:0}
+.semana span{display:block;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acento);margin-bottom:6px}
+.semana b{display:block;font-family:var(--serif);font-weight:500;font-size:1.12rem;margin-bottom:4px}
+.semana p{margin:0;font-size:.9rem;color:var(--suave)}
+@media (max-width:820px){.semana{grid-template-columns:1fr 1fr}.semana div:nth-child(3){border-left:0}.semana div:nth-child(n+3){border-top:1px solid var(--linea)}}
+.aviso-ej{display:inline-flex;gap:8px;align-items:center;background:var(--alterno);border-radius:999px;padding:6px 14px;font-size:.84rem;color:var(--suave);margin-bottom:20px}
+.nav{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(251,248,241,.96);border:1px solid var(--linea);border-radius:999px;padding:6px;box-shadow:var(--sombra-alta);z-index:10}
+.nav button{width:44px;height:44px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;font-size:1.2rem;transition:background .2s}
+.nav button:hover:not(:disabled){background:var(--alterno)}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav button.sig{background:var(--acento);color:#fff}
+.nav button.sig:hover:not(:disabled){background:#B5583A}
+.nav .cont{font-size:.85rem;font-variant-numeric:tabular-nums;color:var(--suave);min-width:58px;text-align:center}
+.ayuda-teclas{position:fixed;right:18px;bottom:28px;font-size:.76rem;color:var(--suave);z-index:9}
+@media (max-width:760px){.ayuda-teclas{display:none}.cab .donde{display:none}}
+.visor{position:fixed;inset:0;background:rgba(31,30,28,.86);z-index:50;display:none;align-items:center;justify-content:center;padding:3vw;cursor:zoom-out}
+.visor.on{display:flex}
+.visor img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+</style>
+</head>
+<body>
+<div class="deck">
+  <header class="cab">
+    <img src="logo.svg" alt="">
+    <span class="marca">Walter Adrián Alcaraz</span>
+    <span class="donde" id="donde"></span>
+    <div class="barra-prog" id="prog"></div>
+  </header>
+
+  <main class="diapos" id="diapos">
+
+    <!-- 1 · Portada -->
+    <section class="diapo portada-diapo" data-t="Inicio">
+      <div class="int">
+        <div class="circulo" aria-hidden="true"></div>
+        <img class="portada-logo" src="logo.svg" alt="">
+        <p class="eti">Diagnóstico Inicial</p>
+        <h1 class="t">Ver cómo trabaja una empresa de verdad, y qué puede mejorar con tecnología</h1>
+        <p class="lead">Un recorrido por el método completo: desde las preguntas hasta el manual de procedimientos y las mejoras con inteligencia artificial, con dos empresas de ejemplo.</p>
+        <div class="firma">
+          <div><span>Preparado por</span><b>Walter Adrián Alcaraz</b></div>
+          <div><span>Recorrido</span><b>Unos 15 minutos</b></div>
+          <div><span>Para avanzar</span><b>Las flechas o el botón de abajo</b></div>
+        </div>
+        <div class="empezar"><button type="button" class="btn btn-acento" data-ir="1" style="padding:14px 24px;font-size:1rem">Empezar el recorrido →</button></div>
+      </div>
+    </section>
+
+    <!-- 2 · Cómo leer esto -->
+    <section class="diapo" data-t="Antes de empezar">
+      <div class="int">
+        <p class="eti">Antes de empezar</p>
+        <h2 class="t">Dos empresas de ejemplo, el método real</h2>
+        <p class="lead">Para mostrar todo el proceso armé dos empresas ficticias, una <b>concesionaria de autos</b> y una <b>inmobiliaria</b>, con respuestas genéricas. El método, las herramientas y los informes son los mismos que uso con una empresa real.</p>
+        <div class="destacado" style="margin-bottom:26px">
+          <p class="cita-grande">El centro no es la herramienta: son las ideas que se me ocurren para cada empresa, respaldadas con inteligencia artificial.</p>
+          <p class="suave">Mientras escucho cómo trabaja cada persona aparecen las oportunidades. Las anoto en el momento, y después la IA me ayuda a convertirlas en recomendaciones concretas, con su ahorro calculado.</p>
+        </div>
+        <p class="mini-tit">El recorrido · tócalo para ir directo</p>
+        <ol class="recorrido">
+          <li data-ir="2">El punto de partida</li>
+          <li data-ir="4">Las preguntas</li>
+          <li data-ir="7">Las respuestas</li>
+          <li data-ir="8">El manual de procedimientos</li>
+          <li data-ir="9">Las mejoras</li>
+          <li data-ir="11">Otro rubro</li>
+          <li data-ir="12">Más allá del diagnóstico</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3 · Problema -->
+    <section class="diapo" data-t="El punto de partida">
+      <div class="int">
+        <p class="eti">El punto de partida</p>
+        <h2 class="t">Casi ninguna pyme tiene escrito cómo trabaja</h2>
+        <p class="lead">Y sin eso, cualquier mejora es a ciegas. Antes de sumar un sistema o una IA hay que ver tres cosas que hoy no se ven.</p>
+        <div class="tarjetas">
+          <div class="tj"><div class="n">01</div><h3>Lo que se sabe está en la cabeza de las personas</h3><p>Cómo se arma un pedido, cómo se cobra, a quién se le pasa cada cosa. Si alguien falta o se va, se frena todo.</p></div>
+          <div class="tj"><div class="n">02</div><h3>Nadie mide adónde se va el tiempo</h3><p>Horas copiando datos entre planillas, buscando información o esperando una aprobación. Como no se ven, no se corrigen.</p></div>
+          <div class="tj"><div class="n">03</div><h3>La tecnología se compra antes de entender el problema</h3><p>Se paga un sistema y se sigue trabajando igual. El diagnóstico primero ordena, y después recomienda.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · El método -->
+    <section class="diapo" data-t="El método">
+      <div class="int">
+        <p class="eti">El método</p>
+        <h2 class="t">Cuatro pasos, una semana, todas las áreas</h2>
+        <p class="lead">El diagnóstico no implementa nada todavía: deja a la vista cómo trabaja la empresa hoy, qué conviene cambiar y en qué orden.</p>
+        <div class="tarjetas cuatro">
+          <div class="tj"><div class="n">1</div><h3>Relevamiento</h3><p>Entrevistas con el dueño, los encargados y los empleados, guiadas por una app propia.</p></div>
+          <div class="tj"><div class="n">2</div><h3>Manual de procedimientos</h3><p>Organigrama con horas por mes, y cada tarea con su diagrama y su paso a paso.</p></div>
+          <div class="tj"><div class="n">3</div><h3>Mejoras con tecnología</h3><p>Automatizaciones, IA y mejor uso de lo que ya tienen, con el antes y el después y el ahorro de cada una.</p></div>
+          <div class="tj"><div class="n">4</div><h3>Cuidados y plan</h3><p>Un chequeo corto de seguridad y un plan de 3 meses, mes por mes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Las preguntas -->
+    <section class="diapo" data-t="Paso 1 · Las preguntas">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 1 · Las preguntas</p>
+            <h2 class="t">Una app para relevar mientras se conversa</h2>
+            <p class="lead">La armé para que nada se pierda en una entrevista.</p>
+            <ul class="puntos">
+              <li><b>Modo entrevista:</b> cargo yo mientras el dueño o un encargado me cuenta, con una guía de preguntas al costado.</li>
+              <li><b>Modo autocompletado:</b> cada empleado recibe el formulario de su puesto y lo completa en unos 15 minutos.</li>
+              <li>Arranca con una plantilla del rubro (hay 16) y se ajusta con «+»: áreas, sectores, puestos y tareas. Por ejemplo, varios equipos de ventas.</li>
+            </ul>
+          </div>
+          <div class="par-capturas">
+            <figure class="captura"><img src="capturas/app-1-inicio.jpg" alt="Pantalla de inicio de la app de relevamiento" loading="lazy"><figcaption>Inicio: entrevista o autocompletado</figcaption></figure>
+            <figure class="captura"><img src="capturas/app-2-organigrama.jpg" alt="Organigrama de la concesionaria en la app" loading="lazy"><figcaption>El organigrama real, con la guía al costado</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · El paso a paso real -->
+    <section class="diapo" data-t="Paso 1 · Las preguntas">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 1 · Las preguntas</p>
+            <h2 class="t">«Cuéntame la última vez que lo hiciste»</h2>
+            <p class="lead">Esa pregunta es la clave. Cuando alguien cuenta un caso real y reciente, aparece el paso a paso verdadero, no el que figura en el papel.</p>
+            <ul class="puntos">
+              <li>Cada paso queda con quién lo hace, con qué herramienta y cuántos minutos lleva.</li>
+              <li>El diagrama del proceso <b>se dibuja solo</b> mientras la persona habla.</li>
+              <li>Se registra qué molesta, cuánto se repite y qué pasa cuando algo sale distinto.</li>
+            </ul>
+          </div>
+          <div class="par-capturas">
+            <figure class="captura"><img src="capturas/app-5-pasos.jpg" alt="Carga del paso a paso de una tarea" loading="lazy"><figcaption>El paso a paso, renglón por renglón</figcaption></figure>
+            <figure class="captura"><img src="capturas/app-6-diagrama.jpg" alt="Diagrama del proceso generado en vivo" loading="lazy"><figcaption>El diagrama se arma mientras se carga</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · Botón Idea -->
+    <section class="diapo" data-t="El botón Idea">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">El corazón del método</p>
+            <h2 class="t">El botón «Idea»</h2>
+            <p class="lead">Mientras alguien cuenta cómo trabaja, se me ocurren soluciones. Con una tecla, la idea queda anotada junto a la tarea de donde salió, sin cortar la conversación.</p>
+            <ul class="puntos">
+              <li>Después, cada idea se desarrolla con IA: cómo funcionaría, con qué herramientas y cuánto tiempo libera.</li>
+              <li>Ninguna se pierde: en el informe, cada idea tiene su respuesta.</li>
+              <li>Ese criterio, el de detectar dónde está la oportunidad, es lo que hace diferente cada diagnóstico.</li>
+            </ul>
+          </div>
+          <figure class="captura"><img src="capturas/app-7-idea.jpg" alt="Ventana para anotar una idea durante la entrevista" loading="lazy"><figcaption>Una idea, anotada en plena entrevista</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · Las respuestas -->
+    <section class="diapo" data-t="Paso 2 · Las respuestas">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 2 · Las respuestas</p>
+            <h2 class="t">Lo que contestó la concesionaria</h2>
+            <p class="lead">Tres fuentes sobre la misma empresa: la entrevista con el dueño y los encargados, más lo que completaron por su cuenta un vendedor y el gestor de patentamiento.</p>
+            <ul class="puntos">
+              <li>Cuando dos personas cuentan algo distinto, no se elige: se muestran las dos versiones y se aclara en la reunión.</li>
+              <li>Las personas aparecen por su puesto, nunca por su nombre.</li>
+              <li>Mira las <b>ideas del consultor</b>, arriba de todo, y abre <b>Ventas</b> para ver una tarea relevada completa.</li>
+            </ul>
+            <div class="ir"><a class="btn btn-acento" href="concesionaria/respuestas.html">Ver las preguntas y respuestas</a></div>
+            <p class="tip-ir">Se abre en esta misma ventana. Para seguir, usa el botón «Volver a la presentación».</p>
+          </div>
+          <figure class="captura"><img src="capturas/app-4-relato.jpg" alt="Relato de una tarea en la app" loading="lazy"><figcaption>El relato de un vendedor, tal como se cargó</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · Manual -->
+    <section class="diapo" data-t="Paso 3 · El manual de procedimientos">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 3 · El manual de procedimientos</p>
+            <h2 class="t">Lo que casi ninguna empresa tiene</h2>
+            <p class="lead">Con las respuestas se arma solo el mapa completo de la empresa. Por sí mismo ya es un producto: sirve para capacitar, delegar y no depender de una persona.</p>
+            <div class="cifras">
+              <div class="cifra"><b>7</b><span>áreas</span></div>
+              <div class="cifra"><b>123</b><span>tareas, 17 con paso a paso</span></div>
+              <div class="cifra"><b>3.113 h</b><span>de trabajo por mes, medidas</span></div>
+            </div>
+            <ul class="puntos">
+              <li>Cada tarea relevada tiene su diagrama (en el estándar BPMN) y su paso a paso redactado como instrucción.</li>
+              <li>Los datos que faltan no se inventan: quedan marcados «por confirmar».</li>
+            </ul>
+            <div class="ir"><a class="btn btn-acento" href="concesionaria/manual.html">Abrir el manual</a></div>
+          </div>
+          <figure class="captura"><img src="capturas/man-3-bpmn.jpg" alt="Una tarea del manual con su diagrama y su paso a paso" loading="lazy"><figcaption>Cada tarea: diagrama, paso a paso y relato</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Mejoras -->
+    <section class="diapo" data-t="Paso 4 · Las mejoras">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 4 · Las mejoras</p>
+            <h2 class="t">Recomendaciones con tecnología, y la cuenta a la vista</h2>
+            <p class="lead">Nada de consejos obvios: cada recomendación dice qué se automatiza o qué hace la IA, cómo queda el proceso y cuánto tiempo libera.</p>
+            <div class="cifras">
+              <div class="cifra"><b>20</b><span>recomendaciones</span></div>
+              <div class="cifra"><b>445 a 575 h</b><span>liberadas por mes</span></div>
+              <div class="cifra"><b>$ 3,0 a 3,8 M</b><span>por mes, con los costos que cargó la empresa</span></div>
+            </div>
+            <ul class="puntos">
+              <li>Antes y después del proceso, paso por paso.</li>
+              <li>Herramientas posibles, empezando por las que la empresa ya tiene.</li>
+              <li>«Ver la cuenta» muestra de dónde sale cada número.</li>
+            </ul>
+            <div class="ir"><a class="btn btn-acento" href="concesionaria/informe.html#recomendaciones">Ver las recomendaciones</a></div>
+          </div>
+          <figure class="captura"><img src="capturas/inf-2-antes-despues.jpg" alt="Una recomendación con su antes y después" loading="lazy"><figcaption>El antes y el después de una mejora</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · Plan -->
+    <section class="diapo" data-t="Paso 4 · Cuidados y plan">
+      <div class="int">
+        <div class="dos">
+          <div class="txt">
+            <p class="eti">Paso 4 · Cuidados y plan</p>
+            <h2 class="t">Qué hacer primero, mes por mes</h2>
+            <p class="lead">El informe termina con un orden claro: primero lo que responde a lo que el dueño quiere lograr y es más simple, y después lo que se apoya en eso.</p>
+            <ul class="puntos">
+              <li><b>Antes de empezar, recomendamos:</b> un chequeo corto de seguridad (contraseñas, copias, accesos) en tono de recomendación, no de auditoría.</li>
+              <li><b>Plan de 3 meses:</b> qué se implementa cada mes, qué resultado se ve y qué hace falta.</li>
+              <li><b>Para nuestra reunión:</b> los datos por confirmar, convertidos en una agenda corta.</li>
+            </ul>
+            <div class="ir">
+              <a class="btn btn-acento" href="concesionaria/informe.html#plan">Ver el plan de 3 meses</a>
+              <a class="btn" href="concesionaria/informe.html">Informe completo</a>
+            </div>
+          </div>
+          <figure class="captura"><img src="capturas/inf-4-plan.jpg" alt="Plan de 3 meses del informe" loading="lazy"><figcaption>El plan de 3 meses</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 · Inmobiliaria -->
+    <section class="diapo" data-t="Otro rubro, el mismo método">
+      <div class="int">
+        <p class="eti">Otro rubro, el mismo método</p>
+        <h2 class="t">La inmobiliaria</h2>
+        <p class="lead">Otro negocio y otros problemas: cobranza de alquileres, liquidaciones a propietarios, consultas de portales. El método se adapta a cualquier rubro y a cualquier tamaño.</p>
+        <div class="cifras" style="max-width:900px">
+          <div class="cifra"><b>6</b><span>áreas</span></div>
+          <div class="cifra"><b>49</b><span>tareas, 13 con paso a paso</span></div>
+          <div class="cifra"><b>882 h</b><span>de trabajo por mes</span></div>
+          <div class="cifra"><b>17</b><span>recomendaciones</span></div>
+          <div class="cifra"><b>317 a 455 h</b><span>liberadas por mes</span></div>
+        </div>
+        <div class="tarjetas">
+          <a class="tj" href="inmobiliaria/respuestas.html" style="text-decoration:none"><div class="ico">💬</div><h3>Las respuestas</h3><p>La entrevista y lo que completó administración de alquileres.</p></a>
+          <a class="tj" href="inmobiliaria/manual.html" style="text-decoration:none"><div class="ico">📘</div><h3>El manual</h3><p>Organigrama, flujos entre áreas y paso a paso de cada tarea.</p></a>
+          <a class="tj" href="inmobiliaria/informe.html" style="text-decoration:none"><div class="ico">📈</div><h3>El informe</h3><p>Recomendaciones, cuidados y el plan de 3 meses.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · Capacidades -->
+    <section class="diapo" data-t="Más allá del diagnóstico">
+      <div class="int">
+        <p class="eti">Más allá del diagnóstico</p>
+        <h2 class="t">Lo que viene después: construir las soluciones</h2>
+        <p class="lead">El diagnóstico muestra qué hacer. Lo que más me entusiasma es lo que sigue: hacerlo realidad con inteligencia artificial y alta tecnología, a la medida de cada empresa.</p>
+        <div class="capac">
+          <div class="tj"><div class="ico">🤖</div><h3>Asistentes con IA</h3><p>Que atienden consultas a cualquier hora, ordenan pedidos o responden con la información de la empresa.</p></div>
+          <div class="tj"><div class="ico">⚙️</div><h3>Automatizaciones</h3><p>Que eliminan la carga repetida: datos que pasan solos entre planillas, sistemas, WhatsApp y correo.</p></div>
+          <div class="tj"><div class="ico">📱</div><h3>Aplicaciones a medida</h3><p>Como una app de faltantes para el depósito, o un buscador que entiende los nombres que usa la calle.</p></div>
+          <div class="tj"><div class="ico">🔍</div><h3>Ingeniería inversa</h3><p>Entender cómo funciona una aplicación o herramienta que ya existe y construir una versión propia, adaptada a la empresa.</p></div>
+          <div class="tj"><div class="ico">📊</div><h3>Investigación de competencia</h3><p>Monitoreo automático de precios y movimientos de la competencia, para decidir con datos.</p></div>
+          <div class="tj"><div class="ico">📣</div><h3>Marketing con tecnología</h3><p>Analizar qué funciona en el mercado y llevarlo a campañas, contenidos y embudos propios.</p></div>
+        </div>
+        <p class="tip-ir" style="font-size:.95rem;margin-top:22px">Si una empresa lo necesita y la tecnología lo permite, se puede construir.</p>
+      </div>
+    </section>
+
+    <!-- 14 · Una semana -->
+    <section class="diapo" data-t="Cómo se hace en una semana">
+      <div class="int">
+        <p class="eti">Cómo se hace en una semana</p>
+        <h2 class="t">La IA hace el trabajo pesado. El criterio lo pongo yo.</h2>
+        <p class="lead">Un relevamiento así, con todas las áreas, solía llevar semanas de reuniones y redacción. Con este método, la entrevista se carga en vivo, la IA redacta, los números los calculan fórmulas a la vista y yo reviso cada recomendación.</p>
+        <div class="semana">
+          <div><span>Días 1 a 3</span><b>Entrevistas</b><p>Dueño, encargados y empleados. Los demás completan su puesto por su cuenta.</p></div>
+          <div><span>Día 4</span><b>Mapa y manual</b><p>Organigrama, horas, diagramas y paso a paso.</p></div>
+          <div><span>Día 5</span><b>Mejoras y plan</b><p>Las ideas se convierten en recomendaciones con su ahorro.</p></div>
+          <div><span>Días 6 y 7</span><b>Reunión</b><p>Se presenta el informe y se confirman los datos pendientes.</p></div>
+        </div>
+        <ul class="puntos" style="max-width:820px">
+          <li><b>Nada inventado:</b> cada número sale de lo que contó la empresa, y las estimaciones se muestran como estimaciones.</li>
+          <li><b>Funciona sin internet</b> y los datos quedan en la computadora del consultor.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 15 · Cierre -->
+    <section class="diapo" data-t="Trabajar juntos">
+      <div class="int">
+        <p class="eti">Trabajar juntos</p>
+        <h2 class="t">Un servicio más para tus clientes</h2>
+        <p class="lead">Lo que imagino es sumarme a un equipo que ya acompaña empresas, como <b>responsable de inteligencia artificial y alta tecnología</b>. Así sus clientes tienen el diagnóstico y, después, las soluciones construidas a su medida.</p>
+        <div class="tarjetas">
+          <div class="tj"><div class="n">01</div><h3>El diagnóstico como puerta de entrada</h3><p>Una semana, todas las áreas, y un informe que el dueño entiende y quiere implementar.</p></div>
+          <div class="tj"><div class="n">02</div><h3>La implementación como continuidad</h3><p>Automatizaciones, IA y aplicaciones a medida, en el orden del plan.</p></div>
+          <div class="tj"><div class="n">03</div><h3>Trabajo a la par</h3><p>Tu experiencia con los clientes, y la tecnología que hace falta para llevarla más lejos.</p></div>
+        </div>
+        <div class="firma">
+          <div><span>Gracias por recorrerlo</span><b>Walter Adrián Alcaraz</b></div>
+        </div>
+        <div class="empezar"><button type="button" class="btn" data-ir="0">↺ Volver al inicio</button></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="nav" aria-label="Navegación de la presentación">
+  <button type="button" id="ant" aria-label="Anterior">←</button>
+  <span class="cont" id="cont">1 / 15</span>
+  <button type="button" id="sig" class="sig" aria-label="Siguiente">→</button>
+</nav>
+<div class="ayuda-teclas">Usa ← → del teclado</div>
+<div class="visor" id="visor" role="dialog" aria-label="Imagen ampliada"><img alt=""></div>
+
+<script>
+(function () {
+  var ds = [].slice.call(document.querySelectorAll('.diapo'));
+  var n = ds.length, actual = -1;
+  var cont = document.getElementById('cont'), prog = document.getElementById('prog'), donde = document.getElementById('donde');
+  var ant = document.getElementById('ant'), sig = document.getElementById('sig');
+  function ir(i, sinHistoria) {
+    i = Math.max(0, Math.min(n - 1, i));
+    if (i === actual) return;
+    ds.forEach(function (d, k) { d.classList.toggle('on', k === i); d.classList.toggle('antes', k < i); });
+    ds[i].scrollTop = 0;
+    actual = i;
+    cont.textContent = (i + 1) + ' / ' + n;
+    prog.style.width = ((i + 1) / n * 100) + '%';
+    donde.textContent = i ? ds[i].dataset.t : '';
+    ant.disabled = i === 0; sig.disabled = i === n - 1;
+    try { localStorage.setItem('pres-diapo', String(i)); } catch (e) {}
+    var h = '#' + (i + 1);
+    if (location.hash !== h) { if (sinHistoria) history.replaceState(null, '', h); else history.pushState(null, '', h); }
+  }
+  function desdeHash() { var m = /^#(\d+)$/.exec(location.hash); return m ? parseInt(m[1], 10) - 1 : null; }
+  ant.onclick = function () { ir(actual - 1); };
+  sig.onclick = function () { ir(actual + 1); };
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest('[data-ir]'); if (b) { ir(parseInt(b.dataset.ir, 10)); return; }
+    var f = ev.target.closest('.captura'); if (f) { var v = document.getElementById('visor'); v.querySelector('img').src = f.querySelector('img').src; v.classList.add('on'); return; }
+    if (ev.target.closest('#visor')) document.getElementById('visor').classList.remove('on');
+  });
+  document.addEventListener('keydown', function (ev) {
+    var v = document.getElementById('visor');
+    if (ev.key === 'Escape') { v.classList.remove('on'); return; }
+    if (v.classList.contains('on')) return;
+    if (ev.key === 'ArrowRight' || ev.key === 'PageDown') { ev.preventDefault(); ir(actual + 1); }
+    else if (ev.key === 'ArrowLeft' || ev.key === 'PageUp') { ev.preventDefault(); ir(actual - 1); }
+    else if (ev.key === 'Home') ir(0); else if (ev.key === 'End') ir(n - 1);
+  });
+  var x0 = null, y0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) ir(actual + (dx < 0 ? 1 : -1));
+    x0 = null;
+  }, { passive: true });
+  window.addEventListener('popstate', function () { var h = desdeHash(); if (h !== null) ir(h, true); });
+  var inicio = desdeHash();
+  if (inicio === null) { try { var g = parseInt(localStorage.getItem('pres-diapo'), 10); if (!isNaN(g)) inicio = g; } catch (e) {} }
+  ir(inicio || 0, true);
+})();
+</script>
+</body>
+</html>
